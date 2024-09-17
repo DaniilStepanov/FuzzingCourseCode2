@@ -8,7 +8,6 @@ import java.io.*;
 import java.util.concurrent.*;
 
 public class CoverageAgent {
-    public static final ConcurrentHashMap<String, String> coveredMethods = new ConcurrentHashMap<String, String>();
 
     public static void premain(String agentArgs, Instrumentation inst) {
 
@@ -16,7 +15,7 @@ public class CoverageAgent {
             @Override
             public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined,
                                     ProtectionDomain protectionDomain, byte[] classfileBuffer) {
-                if (className.startsWith("org/itmo/fuzzing/lect2/") && !className.contains("instrumentation")) { // Замените на ваш пакет
+                if (className.startsWith("org/itmo/fuzzing/lect2/URLV") && !className.contains("instrumentation")) { // Замените на ваш пакет
                     return transformClass(className, classfileBuffer);
                 }
                 return null;
@@ -38,10 +37,8 @@ public class CoverageAgent {
                     public void visitLineNumber(int line, Label start) {
                         super.visitLineNumber(line, start);
                         CoverageTracker.logFullCoverage(name, Integer.toString(line));
-                        String lineKey = className + ":" + line;
-                        System.out.println("NAME = " + name + "LINE = " + line);
                         mv.visitLdcInsn(name);
-                        mv.visitLdcInsn(lineKey);
+                        mv.visitLdcInsn(Integer.toString(line));
                         mv.visitMethodInsn(Opcodes.INVOKESTATIC, "org/itmo/fuzzing/lect2/instrumentation/CoverageTracker", "logCoverage", "(Ljava/lang/String;Ljava/lang/String;)V", false);
                     }
 

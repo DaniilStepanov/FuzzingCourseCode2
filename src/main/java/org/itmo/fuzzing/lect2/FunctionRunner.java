@@ -12,7 +12,8 @@ public class FunctionRunner {
     private static final String PASS = "PASS";
     private static final String FAIL = "FAIL";
     private final Function<String, Object> function;
-    public ConcurrentHashMap<String, TreeSet<String>> coverage;
+    public TreeSet<String> coverage;
+    public TreeSet<String> fullCoverage;
 
     /**
      * Инициализация.
@@ -34,7 +35,9 @@ public class FunctionRunner {
     }
 
     public Object runFunctionWithCoverage(String inp) {
+        CoverageTracker.coverage.clear();
         coverage = CoverageTracker.coverage;
+        fullCoverage = CoverageTracker.fullCoverage;
         return function.apply(inp);
     }
 
@@ -48,7 +51,7 @@ public class FunctionRunner {
         Object result;
         String outcome;
         try {
-            result = runFunction(inp);
+            result = runFunctionWithCoverage(inp);
             outcome = PASS;
         } catch (Throwable e) {
             result = null;

@@ -4,10 +4,7 @@ import org.itmo.fuzzing.lect1.SimpleFuzz;
 import org.itmo.fuzzing.lect2.instrumentation.CoverageAgent;
 import org.itmo.fuzzing.lect2.instrumentation.CoverageTracker;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeSet;
+import java.util.*;
 
 public class CgiDecoder {
 
@@ -44,6 +41,19 @@ public class CgiDecoder {
     }
 
     public static void main(String[] args) {
+        String seed = "http://www.google.com/search?q=fuzzing";
+        FunctionRunner fr = new FunctionRunner(s -> URLValidator.httpProgram(s));
+        MutationCoverageFuzzer mutationCoverageFuzzer = new MutationCoverageFuzzer(
+                Arrays.asList(seed),
+                5,
+                100
+        ) {
+            @Override
+            public String mutate(String input) {
+                return StringMutator.mutate(input);
+            }
+        };
+        mutationCoverageFuzzer.fuzz(fr);
         // Example usage
 //        String encoded = "Hello+World%21";
 //        String decoded = cgiDecode(encoded);
@@ -54,18 +64,18 @@ public class CgiDecoder {
 //            cgiDecode("%?a");
 //        } catch (Throwable e) {
 //        }
-        SimpleFuzz sf = new SimpleFuzz();
-        for (int i = 0; i < 10_000; i++) {
-            String input = sf.fuzzer(10, 32, 91);
-            try {
-                cgiDecode(input);
-            }catch (IllegalArgumentException e) {
-
-            } catch (Exception e) {
-                System.out.println("BUG FOUND INPUT = " + input);
-                e.printStackTrace();
-            }
-        }
+//        SimpleFuzz sf = new SimpleFuzz();
+//        for (int i = 0; i < 10_000; i++) {
+//            String input = sf.fuzzer(10, 32, 91);
+//            try {
+//                cgiDecode(input);
+//            }catch (IllegalArgumentException e) {
+//
+//            } catch (Exception e) {
+//                System.out.println("BUG FOUND INPUT = " + input);
+//                e.printStackTrace();
+//            }
+//        }
 
 
 //        System.out.println("Decoded string: " + decoded);  // Output: "Hello World!"

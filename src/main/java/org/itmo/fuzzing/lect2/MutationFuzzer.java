@@ -23,7 +23,6 @@ public abstract class MutationFuzzer {
         this.seed = seed;
         this.minMutations = minMutations;
         this.maxMutations = maxMutations;
-        reset();
     }
 
     /**
