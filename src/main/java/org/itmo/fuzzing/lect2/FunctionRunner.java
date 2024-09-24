@@ -1,12 +1,15 @@
 package org.itmo.fuzzing.lect2;
 
 import org.itmo.fuzzing.lect2.instrumentation.CoverageTracker;
+import org.itmo.fuzzing.lect3.Location;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class FunctionRunner {
     private static final String PASS = "PASS";
@@ -39,6 +42,10 @@ public class FunctionRunner {
         coverage = CoverageTracker.coverage;
         fullCoverage = CoverageTracker.fullCoverage;
         return function.apply(inp);
+    }
+
+    public Set<Location> getCoverageAsLocations() {
+        return coverage.stream().map(Location::buildFromString).collect(Collectors.toSet());
     }
 
     /**
