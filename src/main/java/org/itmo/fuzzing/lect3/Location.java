@@ -1,5 +1,7 @@
 package org.itmo.fuzzing.lect3;
 
+import java.util.Objects;
+
 public class Location {
     private String filename;
     private int lineno;
@@ -37,5 +39,22 @@ public class Location {
     @Override
     public String toString() {
         return "Location{filename='" + filename + "', lineno=" + lineno + ", function='" + function + "'}";
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Location location = (Location) o;
+        return lineno == location.lineno && filename.equals(location.filename) && function.equals(location.function);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hashCode(filename);
+        result = 31 * result + lineno;
+        result = 31 * result + Objects.hashCode(function);
+        return result;
     }
 }
