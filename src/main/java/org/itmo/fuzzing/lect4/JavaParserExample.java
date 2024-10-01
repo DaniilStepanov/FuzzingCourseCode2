@@ -19,8 +19,9 @@ public class JavaParserExample {
 
             CompilationUnit compilationUnit = StaticJavaParser.parse(file);
 
-//            YamlPrinter printer = new YamlPrinter(true);
-//            System.out.println(printer.output(compilationUnit));
+            YamlPrinter printer = new YamlPrinter(true);
+            System.out.println(printer.output(compilationUnit));
+            System.exit(0);
 
 //            Mutator returnMutator = new ReturnMutator(-1);
 //            var methods = compilationUnit.findAll(MethodDeclaration.class);
