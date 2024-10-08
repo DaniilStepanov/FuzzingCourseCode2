@@ -8,4 +8,12 @@ public class Pair<T, S> {
         this.first = first;
         this.second = second;
     }
+
+    public S getValue() {
+        return second;
+    }
+
+    public T getKey() {
+        return first;
+    }
 }

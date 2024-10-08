@@ -4,8 +4,6 @@ import org.objectweb.asm.*;
 import java.lang.instrument.Instrumentation;
 import java.lang.instrument.ClassFileTransformer;
 import java.security.ProtectionDomain;
-import java.io.*;
-import java.util.concurrent.*;
 
 public class CoverageAgent {
 
@@ -15,8 +13,9 @@ public class CoverageAgent {
             @Override
             public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined,
                                     ProtectionDomain protectionDomain, byte[] classfileBuffer) {
-                if (className.startsWith("org/itmo/fuzzing/lect2/URLV") && !className.contains("instrumentation")) { // Замените на ваш пакет
-                    return transformClass(className, classfileBuffer);
+                if (className.contains("CgiDecoder") && !className.contains("instrumentation")) {
+                    return asmTransformClass(className, classfileBuffer);
+//                    return asmTransformClass(className, classfileBuffer);
                 }
                 return null;
             }
@@ -24,7 +23,14 @@ public class CoverageAgent {
 
     }
 
-    private static byte[] transformClass(String className, byte[] classfileBuffer) {
+//    private static byte[] javaparserTransformClass(String className, byte[] classfileBuffer) throws FileNotFoundException {
+//        String pathToSrc = "/home/zver/IdeaProjects/FuzzingCourseCode2/src/main/java/org/itmo/fuzzing/lect2/CgiDecoder.java";
+//        File file = new File(pathToSrc);
+//        CompilationUnit compilationUnit = StaticJavaParser.parse(file);
+////        compilationUnit.
+//    }
+
+    private static byte[] asmTransformClass(String className, byte[] classfileBuffer) {
         ClassReader cr = new ClassReader(classfileBuffer);
         ClassWriter cw = new ClassWriter(cr, ClassWriter.COMPUTE_FRAMES | ClassWriter.COMPUTE_MAXS);
         ClassVisitor cv = new ClassVisitor(Opcodes.ASM9, cw) {
@@ -33,14 +39,16 @@ public class CoverageAgent {
                 MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions);
                 return new MethodVisitor(Opcodes.ASM9, mv) {
 
-                    @Override
-                    public void visitLineNumber(int line, Label start) {
-                        super.visitLineNumber(line, start);
-                        CoverageTracker.logFullCoverage(name, Integer.toString(line));
-                        mv.visitLdcInsn(name);
-                        mv.visitLdcInsn(Integer.toString(line));
-                        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "org/itmo/fuzzing/lect2/instrumentation/CoverageTracker", "logCoverage", "(Ljava/lang/String;Ljava/lang/String;)V", false);
-                    }
+//                    public static boolean evaluateCondition(int num, String op, Object lhs, Object rhs) {
+
+//                    @Override
+//                    public void visitLineNumber(int line, Label start) {
+//                        super.visitLineNumber(line, start);
+//                        CoverageTracker.logFullCoverage(name, Integer.toString(line));
+//                        mv.visitLdcInsn(name);
+//                        mv.visitLdcInsn(Integer.toString(line));
+//                        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "org/itmo/fuzzing/lect2/instrumentation/CoverageTracker", "logCoverage", "(Ljava/lang/String;Ljava/lang/String;)V", false);
+//                    }
 
                 };
             }

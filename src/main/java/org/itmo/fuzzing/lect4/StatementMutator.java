@@ -14,9 +14,9 @@ public class StatementMutator extends ReturnMutator {
     }
 
     @Override
-    public Node mutationVisit(Node node) {
+    public Node mutationVisit(Node node, int ind) {
         if (node instanceof ReturnStmt) {
-            return super.mutationVisit(node);
+            return super.mutationVisit(node, ind);
         } else {
             return new BlockStmt();
         }

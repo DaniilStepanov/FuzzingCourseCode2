@@ -104,6 +104,7 @@ public class AdvancedMutationFuzzer extends MutationFuzzer {
 
         if (!SetUtils.diff(runner.coverage, coveragesSeen).isEmpty()) {
             System.out.println("NEW COVERAGE");
+            System.out.println("RES = " + result);
             // Обнаружено новое покрытие
             population.add(new Seed(input));
             coveragesSeen.addAll(runner.coverage);
@@ -117,11 +118,7 @@ public class AdvancedMutationFuzzer extends MutationFuzzer {
     public void fuzz(FunctionRunner runner, int trials) {
         for (int i = 0; i < trials; i++) {
             String input = fuzz();
-//            if (input.contains("bad!")) {
-//                System.out.println("It tooks " + i + " to crash crashMe");
-//                return;
-//            }
-            run(runner, input);
+            Object res = run(runner, input);
         }
     }
 

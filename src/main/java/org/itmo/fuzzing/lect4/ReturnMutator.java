@@ -11,8 +11,13 @@ public class ReturnMutator extends Mutator{
     }
 
     @Override
-    public Node mutationVisit(Node node) {
+    public Node mutationVisit(Node node, int ind) {
         return new ReturnStmt(new NullLiteralExpr());
+    }
+
+    @Override
+    public int getMutationsPerStatement() {
+        return 1;
     }
 
     @Override

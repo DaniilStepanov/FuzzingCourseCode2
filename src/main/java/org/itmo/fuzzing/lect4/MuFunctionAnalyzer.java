@@ -42,16 +42,20 @@ public class MuFunctionAnalyzer {
 
     public void generateMutants() {
         for (int i = 0; i < nmutations; i++) {
-            ast = StaticJavaParser.parse(sourceCode);
-            mutator.reset();
-            mutator.mutationLocation = i + 1;
-            var mutatedCode = mutator.mutableVisit(ast);
-            var mutant = new Mutant(
-                    new Location("", -1, name),
-                    "mutant_" + i,
-                    mutatedCode.toString()
-            );
-            mutants.add(mutant);
+            int mutantsNumber = mutator.getMutationsPerStatement();
+            for (int j = 0; j < mutantsNumber; j++) {
+                ast = StaticJavaParser.parse(sourceCode);
+                mutator.reset();
+                mutator.mutationLocation = i + 1;
+                mutator.ind = j;
+                var mutatedCode = mutator.mutableVisit(ast);
+                var mutant = new Mutant(
+                        new Location("", -1, name),
+                        "mutant_" + i,
+                        mutatedCode.toString()
+                );
+                mutants.add(mutant);
+            }
         }
     }
 

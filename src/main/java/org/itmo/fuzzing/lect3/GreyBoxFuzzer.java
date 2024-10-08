@@ -42,6 +42,6 @@ public class GreyBoxFuzzer extends AdvancedMutationFuzzer {
             population.add(s);
             coveragesSeen.addAll(runner.coverage);
         }
-        return null;
+        return result;
     }
 }
