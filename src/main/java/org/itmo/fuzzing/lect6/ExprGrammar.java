@@ -1,5 +1,7 @@
 package org.itmo.fuzzing.lect6;
 
+import org.itmo.fuzzing.lect6.grammar.BetterGrammar;
+
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -8,7 +10,7 @@ public class ExprGrammar {
 
     public static final String START_SYMBOL = "<start>";
 
-    public static final Map<String, List<String>> EXPR_GRAMMAR = new HashMap<>() {{
+    public static final LinkedHashMap<String, List<String>> EXPR_GRAMMAR = new LinkedHashMap<>() {{
         put("<start>", Arrays.asList("<expr>"));
 
         put("<expr>", Arrays.asList(
@@ -61,5 +63,9 @@ public class ExprGrammar {
 
     public static boolean isNonTerminal(String s) {
         return RE_NONTERMINAL.matcher(s).matches();
+    }
+
+    public static BetterGrammar getBetterGrammar() {
+        return new BetterGrammar(EXPR_GRAMMAR);
     }
 }

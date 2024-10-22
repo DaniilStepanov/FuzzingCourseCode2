@@ -1,13 +1,12 @@
 package org.itmo.fuzzing.lect6;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import org.itmo.fuzzing.lect6.grammar.BetterGrammar;
+
+import java.util.*;
 
 public class URLGrammar {
 
-    public static final Map<String, List<String>> URL_GRAMMAR = new HashMap<>() {{
+    public static final LinkedHashMap<String, List<String>> URL_GRAMMAR = new LinkedHashMap<>() {{
         put("<start>", Arrays.asList("<url>"));
         put("<url>", Arrays.asList("<scheme>://<authority><path><query>"));
         put("<scheme>", Arrays.asList("http", "https", "ftp", "ftps"));
@@ -24,4 +23,7 @@ public class URLGrammar {
         put("<param>", Arrays.asList("<id>=<id>", "<id>=<nat>"));
     }};
 
+    public static BetterGrammar getBetterGrammar() {
+        return new BetterGrammar(URL_GRAMMAR);
+    }
 }

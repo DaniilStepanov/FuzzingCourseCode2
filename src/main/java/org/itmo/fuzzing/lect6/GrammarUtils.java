@@ -36,7 +36,7 @@ public class GrammarUtils {
     }
 
     // Helper method to find nonterminals in an expansion (using regular expression)
-    private static List<String> nonterminals(String expansion) {
+    public static List<String> nonterminals(String expansion) {
         Pattern nonterminalPattern = Pattern.compile("<[^<>]*>");
         Matcher matcher = nonterminalPattern.matcher(expansion);
         List<String> nonterminals = new ArrayList<>();

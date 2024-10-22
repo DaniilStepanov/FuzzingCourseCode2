@@ -1,5 +1,7 @@
 package org.itmo.fuzzing.lect6;
 
+import org.itmo.fuzzing.lect6.grammar.BetterGrammar;
+
 import java.util.*;
 
 public class ExprEBNFGrammar {
@@ -39,5 +41,11 @@ public class ExprEBNFGrammar {
 
     public static Grammar getGrammar() {
         return new Grammar(EXPR_EBNF_GRAMMAR);
+    }
+
+    public static BetterGrammar getBetterGrammar() {
+        var grammarExpr = ExprEBNFGrammar.getGrammar();
+        var converted = GrammarConverter.convertEbnfGrammar(grammarExpr);
+        return new BetterGrammar(converted.rules);
     }
 }
