@@ -3,6 +3,7 @@ package org.itmo.fuzzing.lect3;
 import org.itmo.fuzzing.lect2.FunctionRunner;
 import org.itmo.fuzzing.lect2.StringMutator;
 import org.itmo.fuzzing.lect2.URLValidator;
+import org.itmo.fuzzing.lect9.FuzzMutator;
 
 import java.util.Arrays;
 import java.util.List;
@@ -26,7 +27,7 @@ public class CrashMeFuzzer {
         //Usage of AdvancedMutationFuzzer
         var advancedFuzzer = new AdvancedMutationFuzzer(
                 Arrays.asList("good"),
-                new StringMutator(),
+                new FuzzMutator(),
                 new PowerSchedule(),
                 1,
                 5

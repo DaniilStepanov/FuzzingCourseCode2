@@ -13,7 +13,7 @@ public class CoverageAgent {
             @Override
             public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined,
                                     ProtectionDomain protectionDomain, byte[] classfileBuffer) {
-                if (className.contains("CgiDecoder") && !className.contains("instrumentation")) {
+                if (className.contains("jsoup") && !className.contains("instrumentation")) {
                     return asmTransformClass(className, classfileBuffer);
 //                    return asmTransformClass(className, classfileBuffer);
                 }
@@ -22,13 +22,6 @@ public class CoverageAgent {
         });
 
     }
-
-//    private static byte[] javaparserTransformClass(String className, byte[] classfileBuffer) throws FileNotFoundException {
-//        String pathToSrc = "/home/zver/IdeaProjects/FuzzingCourseCode2/src/main/java/org/itmo/fuzzing/lect2/CgiDecoder.java";
-//        File file = new File(pathToSrc);
-//        CompilationUnit compilationUnit = StaticJavaParser.parse(file);
-////        compilationUnit.
-//    }
 
     private static byte[] asmTransformClass(String className, byte[] classfileBuffer) {
         ClassReader cr = new ClassReader(classfileBuffer);
@@ -39,16 +32,14 @@ public class CoverageAgent {
                 MethodVisitor mv = super.visitMethod(access, name, descriptor, signature, exceptions);
                 return new MethodVisitor(Opcodes.ASM9, mv) {
 
-//                    public static boolean evaluateCondition(int num, String op, Object lhs, Object rhs) {
-
-//                    @Override
-//                    public void visitLineNumber(int line, Label start) {
-//                        super.visitLineNumber(line, start);
-//                        CoverageTracker.logFullCoverage(name, Integer.toString(line));
-//                        mv.visitLdcInsn(name);
-//                        mv.visitLdcInsn(Integer.toString(line));
-//                        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "org/itmo/fuzzing/lect2/instrumentation/CoverageTracker", "logCoverage", "(Ljava/lang/String;Ljava/lang/String;)V", false);
-//                    }
+                    @Override
+                    public void visitLineNumber(int line, Label start) {
+                        super.visitLineNumber(line, start);
+                        CoverageTracker.logFullCoverage(name, Integer.toString(line));
+                        mv.visitLdcInsn(name);
+                        mv.visitLdcInsn(Integer.toString(line));
+                        mv.visitMethodInsn(Opcodes.INVOKESTATIC, "org/itmo/fuzzing/lect2/instrumentation/CoverageTracker", "logCoverage", "(Ljava/lang/String;Ljava/lang/String;)V", false);
+                    }
 
                 };
             }

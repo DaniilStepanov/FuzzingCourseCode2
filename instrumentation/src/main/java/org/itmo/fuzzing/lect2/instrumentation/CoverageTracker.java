@@ -8,7 +8,6 @@ public class CoverageTracker {
 
     public static final TreeSet<String> coverage = new TreeSet<String>();
     public static final TreeSet<String> fullCoverage = new TreeSet<String>();
-;
 
 
 

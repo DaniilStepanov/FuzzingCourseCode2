@@ -1,5 +1,6 @@
 package org.itmo.fuzzing.lect6.tree;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +33,19 @@ public class DerivationTreeNode {
         }
 
         return result.toString();
+    }
+
+    public DerivationTreeNode deepCopy() {
+        // Create a new list to hold the copied children
+        List<DerivationTreeNode> copiedChildren = new ArrayList<>();
+
+        // Recursively copy each child
+        for (DerivationTreeNode child : children) {
+            copiedChildren.add(child.deepCopy());
+        }
+
+        // Return a new instance of DerivationTreeNode with the copied value and children
+        return new DerivationTreeNode(this.value, copiedChildren);
     }
 
     @Override

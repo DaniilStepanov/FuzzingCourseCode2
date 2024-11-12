@@ -9,6 +9,10 @@ public class DerivationTreePrinter {
         printNode(tree.getRoot().getValue(), tree.getRoot().getChildren(), 0);
     }
 
+    public static void printTree(DerivationTreeNode node) {
+        printNode(node.getValue(), node.getChildren(), 0);
+    }
+
     private static void printNode(String symbol, List<DerivationTreeNode> children, int level) {
         // Выводим символ с отступом в зависимости от уровня
         String indent = "  ".repeat(level); // Используем пробелы для отступа

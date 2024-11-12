@@ -2,6 +2,7 @@ package org.itmo.fuzzing.lect3;
 
 import org.itmo.fuzzing.lect2.FunctionRunner;
 import org.itmo.fuzzing.lect2.StringMutator;
+import org.itmo.fuzzing.lect9.FuzzMutator;
 import org.itmo.fuzzing.util.SetUtils;
 
 import java.util.ArrayList;
@@ -18,7 +19,7 @@ public class GreyBoxFuzzer extends AdvancedMutationFuzzer {
      * @param minMutations
      * @param maxMutations
      */
-    public GreyBoxFuzzer(List<String> seeds, StringMutator mutator, PowerSchedule schedule, int minMutations, int maxMutations) {
+    public GreyBoxFuzzer(List<String> seeds, FuzzMutator mutator, PowerSchedule schedule, int minMutations, int maxMutations) {
         super(seeds, mutator, schedule, minMutations, maxMutations);
     }
 

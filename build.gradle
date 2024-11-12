@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm'
+    id 'org.jetbrains.kotlin.jvm' version '2.0.20'
 }
 
 group = 'org.example'
@@ -19,11 +19,39 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation 'com.github.javaparser:javaparser-core:3.26.2'
     implementation 'guru.nidi:graphviz-java:0.18.1'
+    implementation("org.antlr:antlr4-runtime:4.13.1")
 }
 
 test {
     useJUnitPlatform()
 }
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(22)
+}
+
+
+// Define a custom task to run your application with a Java agent
+task runWithAgent(type: JavaExec) {
+
+    group = "Application"
+    description = "Runs the application with a Java agent"
+
+    // Set the main class
+    setMainClass("org.itmo.fuzzing.lect9.GrammarGreyBoxFuzzerTest")
+
+    // Set the classpath
+    classpath = sourceSets.main.runtimeClasspath
+
+    doFirst {
+        // Get the agent JAR file from the other module's task
+        def agentJar = project(':instrumentation').tasks.agentJar.outputs.files.singleFile
+    }
+
+    // Add the Java agent argument
+    // Replace 'path/to/your/agent.jar' with the actual path to your Java agent JAR
+    jvmArgs += [
+            '-javaagent:/home/zver/IdeaProjects/FuzzingCourseCode2/instrumentation/build/libs/coverage-agent-1.0-SNAPSHOT-agent.jar',
+            '--enable-preview'
+    ]
+
 }

@@ -14,6 +14,12 @@ dependencies {
     implementation 'com.github.javaparser:javaparser-core:3.26.2'
 }
 
+tasks.withType(JavaCompile) {
+    options.compilerArgs.add("--enable-preview")
+    options.compilerArgs.add("-Xlint:preview")
+//    options.setCompilerArgs("--enable-preview", "-Xlint", "preview")
+}
+
 task agentJar(type: Jar) {
     archiveBaseName = 'coverage-agent'
     archiveClassifier = 'agent'

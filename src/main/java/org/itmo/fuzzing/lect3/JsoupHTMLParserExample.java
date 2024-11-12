@@ -2,6 +2,7 @@ package org.itmo.fuzzing.lect3;
 
 import org.itmo.fuzzing.lect2.FunctionRunner;
 import org.itmo.fuzzing.lect2.StringMutator;
+import org.itmo.fuzzing.lect9.FuzzMutator;
 import org.jsoup.Jsoup;
 
 import java.util.Arrays;
@@ -17,7 +18,7 @@ public class JsoupHTMLParserExample {
 
         var fuzzer = new GreyBoxFuzzer(
                 Arrays.asList(" "),
-                new StringMutator(),
+                new FuzzMutator(),
                 new PowerSchedule(),
                 1,
                 5

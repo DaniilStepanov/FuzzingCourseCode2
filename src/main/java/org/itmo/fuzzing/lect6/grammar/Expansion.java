@@ -9,6 +9,10 @@ public class Expansion {
         this.expansionValue = pairValue;
     }
 
+    public Expansion(String value, Option option) {
+        this.expansionValue = new Pair<>(value, option);
+    }
+
     public Expansion(String stringValue) {
         this.expansionValue = new Pair<>(stringValue, null);
     }

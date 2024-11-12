@@ -20,12 +20,13 @@ public class DataParser {
         try {
             data = parseFile(filePath);
             System.out.println("I am okay");
-        } catch (Throwable e) {
+            System.exit(0);
+        } catch (IllegalStateException e) {
+            throw e;
+        } catch (Exception e) {
             System.out.println("I am failed but everything fine");
         }
-        if (data.values().stream().anyMatch(o -> o instanceof List<?> && ((List<?>) o).size() == 5)) {
-            throw new IllegalStateException("You have found a bug");
-        }
+
     }
 
     private static Map<String, Object> parseFile(String filePath) throws IOException {
@@ -65,6 +66,16 @@ public class DataParser {
                     String[] keyValue = line.split(KEY_VALUE_SEPARATOR, 2);
                     String key = keyValue[0].trim();
                     String value = keyValue[1].trim();
+                    var parsedValue = parseValue(value);
+                    if (parsedValue instanceof List<?> l && l.size() == 5) {
+                        if (l.get(0) instanceof String s && s.contains("a")) {
+                            if (l.get(1) instanceof String s1 && s1.contains("b")) {
+                                if (l.get(2) instanceof String s2 && s2.contains("c")) {
+                                    throw new IllegalStateException("You have found a bug");
+                                }
+                            }
+                        }
+                    }
                     result.put(key, parseValue(value));
                 }
             }

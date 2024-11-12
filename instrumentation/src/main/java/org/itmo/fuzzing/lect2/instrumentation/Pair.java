@@ -1,5 +1,7 @@
 package org.itmo.fuzzing.lect2.instrumentation;
 
+import java.util.List;
+
 public class Pair<T, S> {
     public T first;
     public S second;
@@ -15,5 +17,9 @@ public class Pair<T, S> {
 
     public T getKey() {
         return first;
+    }
+
+    public static <T, S> Pair<T, S> of(T first, S second) {
+        return new Pair<>(first, second);
     }
 }

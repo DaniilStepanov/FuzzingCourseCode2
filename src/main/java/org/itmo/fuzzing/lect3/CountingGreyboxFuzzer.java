@@ -2,6 +2,7 @@ package org.itmo.fuzzing.lect3;
 
 import org.itmo.fuzzing.lect2.FunctionRunner;
 import org.itmo.fuzzing.lect2.StringMutator;
+import org.itmo.fuzzing.lect9.FuzzMutator;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.Map;
 public class CountingGreyboxFuzzer extends GreyBoxFuzzer {
 
 
-    public CountingGreyboxFuzzer(List<String> seeds, StringMutator mutator, AFLFastSchedule schedule, int minMutations, int maxMutations) {
+    public CountingGreyboxFuzzer(List<String> seeds, FuzzMutator mutator, AFLFastSchedule schedule, int minMutations, int maxMutations) {
         super(seeds, mutator, schedule, minMutations, maxMutations);
     }
 

@@ -40,7 +40,16 @@ public class GrammarFuzzer {
         this.grammar = grammar;
         this.startSymbol = "<start>";
         this.minNonterminals = 3;
-        this.maxNonterminals = 5;
+        this.maxNonterminals = 10;
+        this.disp = false;
+        this.log = false;
+    }
+
+    public GrammarFuzzer(BetterGrammar grammar, String startSymbol) {
+        this.grammar = grammar;
+        this.startSymbol = startSymbol;
+        this.minNonterminals = 3;
+        this.maxNonterminals = 10;
         this.disp = false;
         this.log = false;
     }
@@ -114,7 +123,7 @@ public class GrammarFuzzer {
         assert node.getChildren() == null;
 
 //        if (log) {
-            System.out.println("Expanding " + node.allTerminals() + " randomly");
+//            System.out.println("Expanding " + node.allTerminals() + " randomly");
 //        }
 
         List<Expansion> expansions = grammar.rules.get(node.getValue());
@@ -274,14 +283,14 @@ public class GrammarFuzzer {
 
     public DerivationTreeNode expandNodeMinCost(DerivationTreeNode node) {
 //        if (log) {
-            System.out.println("Expanding " + node.allTerminals() + " at min cost");
+//            System.out.println("Expanding " + node.allTerminals() + " at min cost");
 //        }
         return expandNodeByCost(node, Integer::compareTo).getRoot();
     }
 
     public DerivationTreeNode expandNodeMaxCost(DerivationTreeNode node) {
 //        if (log) {
-        System.out.println("Expanding " + node.allTerminals() + " at max cost");
+//        System.out.println("Expanding " + node.allTerminals() + " at max cost");
 //        }
         return expandNodeByCost(node, (o1, o2) -> -o1.compareTo(o2)).getRoot();
     }
@@ -305,6 +314,17 @@ public class GrammarFuzzer {
         assert possibleExpansions(tree.getRoot()) == 0;
 
         return tree;
+    }
+
+    public String fuzz() {
+        var tree = fuzzTree();
+        return tree.allTerminals();
+    }
+
+    public DerivationTreeNode fuzzTree() {
+        var tree = initTree();
+        tree = expandTree(tree);
+        return tree.getRoot();
     }
 
 }
